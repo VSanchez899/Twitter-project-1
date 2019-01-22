@@ -1,0 +1,24 @@
+{
+  "name": "twitter-notes2",
+  "version": "1.0.0",
+  "description": "This is a app to create notes needed",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VSanchez899/Twitter-project-1.git"
+  },
+  "author": "Vincent Sanchez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VSanchez899/Twitter-project-1/issues"
+  },
+  "homepage": "https://github.com/VSanchez899/Twitter-project-1#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.4",
+    "oauth": "^0.9.15"
+  }
+}
