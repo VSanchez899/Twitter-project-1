@@ -1,0 +1,91 @@
+//Author: Vincent Sanchez
+//File name: index.js
+//Title: index page
+//Exercise/Project Number:Twitter-project-1
+
+//this pulls in the express and sets it to a variable called express
+var express = require('express');
+var app = express();
+var authenticator = require('./authenticator.js');
+var config = require('./config.json');
+//gives help with urls and gives us stuff to use
+// var port = 8080;
+var url = require('url');
+var querystring = require('querystring')
+
+app.use(require('cookie-parser')());
+
+//cookie parser return the name of the function
+
+//this route the request to the end point
+app.get('/', function (req, res) {
+    // res.cookie('idiotfood', 'micheal jackson');
+    res.send("<h3>Hello world.</h3>");
+    // console.log(req.cookies);
+});
+// This route will get a request token and redirect the client to the Twitter sign in.
+app.get('/auth/twitter', authenticator.redirectToTwitterLoginPage);
+
+app.get('/tweet', function (req, res) {
+    var credentials = authenticator.getCredentials();
+    if (!credentials.access_token || !credentials.access_token_secret) {
+        return res.sendStatus(418);
+    }
+    var url = "https://api.twitter.com/1.1/statuses/update.json";
+    authenticator.post(url, credentials.access_token, credentials.access_token_secret, 
+        {
+            status: "This is a test of a sample app"
+        },
+        function (error, data) {
+            if (error) {
+                return res.status(400).send(error);
+            }
+            res.send("Tweet Successful")
+        }
+    );
+    
+    // res.sendStatus(200);
+    //this would post a status of ok if the parameters were met
+});
+app.get('/search', function (req,res) {
+   var credentials = authenticator.getCredentials();
+    if (!credentials.access_token || !credentials.access_token_secret) {
+        return res.sendStatus(418);
+    } 
+        var url = "https://api.twitter.com/1.1/search/tweets.json";
+        var query = querystring.stringify({ q: "SamsungMobile"});
+        url += '?' + query;
+        authenticator.get(url, credentials.access_token, credentials.access_token_secret, 
+            function (error, data) {
+            if (error) {
+                return res.status(400).send(error);
+            }
+            res.send(data);
+        })
+});
+
+app.get('/friends', function (req,res) {
+    var credentials = authenticator.getCredentials();
+    if (!credentials.access_token || !credentials.access_token_secret) {
+        return res.sendStatus(418);
+    }
+})
+
+
+app.get(url.parse(config.oauth_callback).path, function (req, res) {
+    authenticator.authenticate(req, res, function (err) {
+        if(err){
+            console.log(err);
+            res.sendStatus(401);
+        }
+        else{
+            res.send("Authentication successful!");
+        }
+    });
+    // res.send("<h3>Hello world, I am OAuth callback</h3>");
+});
+//this is used when the user start running on the port number set to the port variable
+app.listen(config.port, function(){
+    console.log("server is listening on local host:%s", config.port);
+    console.log('OAuth call back: ' + url.parse(config.oauth_callback).hostname + url.parse(config.oauth_callback).path);
+})

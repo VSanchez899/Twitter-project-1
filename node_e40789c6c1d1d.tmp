@@ -104,31 +104,12 @@ app.get('/AllFriends', function (req,res) {
                     if (error) {
                         return res.Status(500).send(error);
                     }
-                    var friends = JSON.parse(data);
-                    // console.log("n: ",n, friends);
-                    next(null, friends);
-                    // old code that got commented out
-                    // friends.reduce(function (previousValue, currentValue, currentIndex, array) {
-                    //     return previousValue.concat(currentValue);
-                    // }, []);
-                    // friends.sort();
-                    // return a.name.LowerCase().localeCompare(b.n.toLowerCase());
+                    console.log("n: ",n, data);
                 });
-                
-            },
-            function (error, friends) {
-                friends = friends.reduce(function(previousValue, currentValue, currentIndex, array){
-                    return previousValue.concat(currentValue);
-                }, []);
-                friends.sort(function(a,b){
-                    return a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-                });
-                res.send(friends);
-                console.log("ids.length: ", ids.length);
             });
         }
     ]);
-    // res.sendStatus(200)
+    res.sendStatus(200)
 });
 
 app.get('/search', function (req,res) {

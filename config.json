@@ -2,10 +2,10 @@
     "port": 8080,
     "request_token_url": "https://api.twitter.com/oauth/request_token",
     "access_token_url": "https://api.twitter.com/oauth/access_token",
-    "authorize_token_url": "https://api.twitter.com/oauth/authorize",
+    "authorize_url": "https://api.twitter.com/oauth/authorize",
     "consumer_key": "bA8FCMTHVQUZnzPsV1z6cy3pB",
     "consumer_secret": "IjmnCM6mql5K2y9DjhFS6spGuJ23sr9YAZbt4FGte6u7tw8NB8",
     "oauth_version": "1.0",
     "oauth_signature": "HMAC-SHA1",
-    "oauth_callback": "https://www.example.com/callback"
+    "oauth_callback":"https://vgstunnel.localtunnel.me/request_token"
 }
